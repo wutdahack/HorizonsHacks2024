@@ -1,0 +1,63 @@
+public class BasicOperations {
+      
+  public static double multiply(double[] nums) {
+      int i = 1;
+      double result = 0;
+      while (i < nums.length) {
+          result = nums[i-1] * nums[i];
+          i++;
+      }
+      return result;
+  }
+
+public static double divide(double[] nums) {
+      int i = 1;
+      double result = 0;
+      while (i < nums.length) {
+          result = nums[i-1] / nums[i];
+          i++;
+      }
+      return result;
+  }
+  
+  public static double add(double[] nums) {
+      int i = 1;
+      double result = 0;
+      while (i < nums.length) {
+          result = nums[i-1] + nums[i];
+          i++;
+      }
+      return result;
+  }
+  
+  public static double subtract(double[] nums) {
+      int i = 1;
+      double result = 0;
+      while (i < nums.length) {
+          result = nums[i-1] - nums[i];
+          i++;
+      }
+      return result;
+  }
+  
+  public static void main(String args[]) {
+      String numbers = scanner.nextLine();
+      
+      System.out.println("What operation would you like to use?");
+      
+      
+  }
+  
+  public static void enterNums() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Enter number");
+  }
+  
+    
+}
+    
+
+    System.out.println(multiply(nums));
+  }
+
+}
