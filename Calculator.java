@@ -19,7 +19,7 @@ public class Calculator {
         Scanner scanner = new Scanner(System.in);
 
         do {
-            System.out.println("What operation would you like to use? (+/add, -/subtract */multiply, (/)/divide), nth root, percentage");
+            System.out.println("What operation would you like to use? (+/add, -/subtract */multiply, ((/)/divide), nth root/exponentiation, percentage)");
             String answer = scanner.nextLine().toLowerCase();
             switch (answer) {
                 case "+":
@@ -51,7 +51,10 @@ public class Calculator {
                 case "sqrt()":
                 case "cbrt":
                 case "cbrt()":
-                    curOperation = BasicOperations.Operations.ROOT;
+                case "exponent":
+                case "^":
+                case "exponentiation":
+                    curOperation = BasicOperations.Operations.ROOTEXP;
                     break;
                 case "%":
                 case "percentage":
@@ -63,7 +66,7 @@ public class Calculator {
             }
         } while (curOperation == null);
 
-        if (curOperation != BasicOperations.Operations.ROOT && curOperation != BasicOperations.Operations.PERCENTAGE) {
+        if (curOperation != BasicOperations.Operations.ROOTEXP && curOperation != BasicOperations.Operations.PERCENTAGE) {
             do {
                 if (numsList.isEmpty()) {
                     System.out.println("Please enter a number.");
@@ -105,7 +108,7 @@ public class Calculator {
                 }
 
             } while (!enteredNums);
-        } else if (curOperation == BasicOperations.Operations.ROOT) {
+        } else if (curOperation == BasicOperations.Operations.ROOTEXP) {
             do {
                 boolean enteredBase = false;
                 do {
@@ -126,7 +129,7 @@ public class Calculator {
                 } while (!enteredBase);
                 boolean enteredExponent = false;
                 do {
-                    System.out.println("Please enter the exponent.");
+                    System.out.println("Please enter the exponent. (Enter 1 if performing nth root)");
                     double num;
                     while(!scanner.hasNextDouble()) {
                         System.out.println("That isn't a number, please enter the exponent.");
@@ -134,16 +137,30 @@ public class Calculator {
                     }
                     num = scanner.nextDouble();
                     scanner.nextLine();
+                    numsList.add(num);
+                    enteredExponent = true;
+                    enteredNums = true;
+                    
+                } while (!enteredExponent);
+                boolean enteredRoot = false;
+                do {
+                    System.out.println("Please enter the root. (Enter 1 if performing exponentiation)");
+                    double num;
+                    while(!scanner.hasNextDouble()){
+                        System.out.println("That isn't a number, please enter the root.");
+                        scanner.next();
+                    }
+                    num = scanner.nextDouble();
+                    scanner.nextLine();
                     if (num != 0) {
                         numsList.add(num);
-                        enteredExponent = true;
-                        enteredNums = true;
+                        enteredRoot = true;
                     } else {
-                        System.out.println("You cannot use 0 as an exponent, please try again.");
+                        System.out.println("Your root cannot be 0, please try again.");
                     }
-                } while (!enteredExponent);
+                } while (!enteredRoot);
             } while (!enteredNums);
-        } else {
+        } else if (curOperation == BasicOperations.Operations.PERCENTAGE) {
             do {
                 System.out.println("Please enter the base number you want to find a percentage of.");
                 double num;
@@ -183,8 +200,8 @@ public class Calculator {
             case DIVIDE:
                 result = BasicOperations.divide(numArray);
                 break;
-            case ROOT:
-                result = BasicOperations.root(numArray);
+            case ROOTEXP:
+                result = BasicOperations.rootexp(numArray);
                 break;
             case PERCENTAGE:
                 result = BasicOperations.percentage(numArray);
@@ -233,10 +250,11 @@ public class Calculator {
             return result;
         }
 
-        public static double root(Double[] nums) {
+        public static double rootexp(Double[] nums) {
             double base = nums[0];
             double exponent = nums[1];
-            return Math.pow(base, 1.0 / exponent);
+            double root = nums[2];
+            return Math.pow(base, exponent / root);
         }
 
         public static double percentage(Double[] nums) {
@@ -250,8 +268,8 @@ public class Calculator {
             SUBTRACT,
             MULTIPLY,
             DIVIDE,
-            ROOT,
-            PERCENTAGE
+            ROOTEXP,
+            PERCENTAGE,
         }
     }
 
