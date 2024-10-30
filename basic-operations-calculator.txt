@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,52 +19,210 @@ public class Calculator {
         Scanner scanner = new Scanner(System.in);
 
         do {
-            System.out.println("What operation would you like to use? (+/add, -/subtract */multiply, ÷/divide)");
+            System.out.println("What operation would you like to use? (+/add, -/subtract */multiply, (/)/divide), nth root, percentage");
             String answer = scanner.nextLine().toLowerCase();
             switch (answer) {
-                case "+", "add", "addition" -> curOperation = BasicOperations.Operations.ADD;
-                case "-", "subtract", "subtraction", "minus" -> curOperation = BasicOperations.Operations.SUBTRACT;
-                case "*", "multiply", "multiplication", "times" -> curOperation = BasicOperations.Operations.MULTIPLY;
-                case "÷", "/", "divide", "division" -> curOperation = BasicOperations.Operations.DIVIDE;
-                default -> System.out.println("That's not a valid option, please try again.");
+                case "+":
+                    curOperation = BasicOperations.Operations.ADD;
+                    break;
+                case "add":
+                    curOperation = BasicOperations.Operations.ADD;
+                    break;
+                case "addition":
+                    curOperation = BasicOperations.Operations.ADD;
+                    break;
+                case "-":
+                    curOperation = BasicOperations.Operations.SUBTRACT;
+                    break;
+                case "subtract":
+                    curOperation = BasicOperations.Operations.SUBTRACT;
+                    break;
+                case "subtraction":
+                    curOperation = BasicOperations.Operations.SUBTRACT;
+                    break;
+                case "minus":
+                    curOperation = BasicOperations.Operations.SUBTRACT;
+                    break;
+                case "*":
+                    curOperation = BasicOperations.Operations.MULTIPLY;
+                    break;
+                case "multiply":
+                    curOperation = BasicOperations.Operations.MULTIPLY;
+                    break;
+                case "multiplication":
+                    curOperation = BasicOperations.Operations.MULTIPLY;
+                    break;
+                case "times":
+                    curOperation = BasicOperations.Operations.MULTIPLY;
+                    break;
+                case "÷":
+                    curOperation = BasicOperations.Operations.DIVIDE;
+                    break;
+                case "/":
+                    curOperation = BasicOperations.Operations.DIVIDE;
+                    break;
+                case "divide":
+                    curOperation = BasicOperations.Operations.DIVIDE;
+                    break;
+                case "division":
+                    curOperation = BasicOperations.Operations.DIVIDE;
+                    break;
+                case "nth root":
+                    curOperation = BasicOperations.Operations.ROOT;
+                    break;
+                case "root":
+                    curOperation = BasicOperations.Operations.ROOT;
+                    break;
+                case "sqrt":
+                    curOperation = BasicOperations.Operations.ROOT;
+                    break;
+                case "sqrt()":
+                    curOperation = BasicOperations.Operations.ROOT;
+                    break;
+                case "cbrt":
+                    curOperation = BasicOperations.Operations.ROOT;
+                    break;
+                case "cbrt()":
+                    curOperation = BasicOperations.Operations.ROOT;
+                    break;
+                case "%":
+                    curOperation = BasicOperations.Operations.PERCENTAGE;
+                    break;
+                case "percentage":
+                    curOperation = BasicOperations.Operations.PERCENTAGE;
+                    break;
+                default:
+                    System.out.println("That's not a valid option, please try again.");
+                    break;
             }
         } while (curOperation == null);
 
-        do {
-            System.out.println("Please enter a number.");
-            double num = scanner.nextDouble();
-            scanner.nextLine();
-            numsList.add(num);
-            if (numsList.size() >= 2) {
-                boolean doneEntering = false;
-                while (!doneEntering) {
-                    System.out.println("Are you done entering numbers? (yes/no)");
-                    String ans = scanner.nextLine().toLowerCase();
-                    switch (ans) {
-                        case "y", "yes" -> {
-                            doneEntering = true;
-                            enteredNums = true;
+        if (curOperation != BasicOperations.Operations.ROOT && curOperation != BasicOperations.Operations.PERCENTAGE) {
+            do {
+                System.out.println("Please enter a number.");
+                double num;
+                while(!scanner.hasNextDouble()) {
+                    scanner.next();
+                }
+                num = scanner.nextDouble();
+                scanner.nextLine();
+                if (curOperation == BasicOperations.Operations.DIVIDE && num == 0) {
+                    System.out.println("You cannot divide by 0.");
+                } else {
+                    numsList.add(num);
+                }
+                if (numsList.size() >= 2) {
+                    boolean doneEntering = false;
+                    while (!doneEntering) {
+                        System.out.println("Are you done entering numbers? (yes/no)");
+                        String ans = scanner.nextLine().toLowerCase();
+                        switch (ans) {
+                            case "y":
+                                doneEntering = true;
+                                enteredNums = true;
+                                break;
+                            case "yes":
+                                doneEntering = true;
+                                enteredNums = true;
+                                break;
+                            case "n":
+                                doneEntering = true;
+                                break;
+                            case "no":
+                                doneEntering = true;
+                                break;
+                            default:
+                                System.out.println("That's not a valid option, please try again.");
+                                break;
                         }
-                        case "n", "no" -> doneEntering = true;
-                        default -> System.out.println("That's not a valid option, please try again.");
                     }
                 }
-            }
 
-        } while (!enteredNums);
+            } while (!enteredNums);
+        } else if (curOperation == BasicOperations.Operations.ROOT) {
+            do {
+                boolean enteredBase = false;
+                do {
+                    System.out.println("Please enter the base number.");
+                    double num;
+                    while(!scanner.hasNextDouble()) {
+                        scanner.next();
+                    }
+                    num = scanner.nextDouble();
+                    scanner.nextLine();
+                    if (num >= 0) {
+                        numsList.add(num);
+                        enteredBase = true;
+                    } else {
+                        System.out.println("You cannot find the root of a negative number, please try again.");
+                    }
+                } while (!enteredBase);
+                boolean enteredExponent = false;
+                do {
+                    System.out.println("Please enter the exponent.");
+                    double num;
+                    while(!scanner.hasNextDouble()) {
+                        scanner.next();
+                    }
+                    num = scanner.nextDouble();
+                    scanner.nextLine();
+                    if (num != 0) {
+                        numsList.add(num);
+                        enteredExponent = true;
+                        enteredNums = true;
+                    } else {
+                        System.out.println("You cannot use 0 as an exponent, please try again.");
+                    }
+                } while (!enteredExponent);
+            } while (!enteredNums);
+        } else {
+            do {
+                System.out.println("Please enter the base number you want to find a percentage of.");
+                double num;
+                while(!scanner.hasNextDouble()) {
+                    scanner.next();
+                }
+                num = scanner.nextDouble();
+                scanner.nextLine();
+                numsList.add(num);
+                System.out.println("Please enter the percentage you want to find.");
+                num = scanner.nextDouble();
+                scanner.nextLine();
+                numsList.add(num);
+                enteredNums = true;
+            } while (!enteredNums);
+        }
 
         scanner.close();
 
         Double[] numArray = numsList.toArray(new Double[0]);
 
         switch (curOperation) {
-            case ADD -> result = BasicOperations.add(numArray);
-            case SUBTRACT -> result = BasicOperations.subtract(numArray);
-            case MULTIPLY -> result = BasicOperations.multiply(numArray);
-            case DIVIDE -> result = BasicOperations.divide(numArray);
+            case ADD:
+                result = BasicOperations.add(numArray);
+                break;
+            case SUBTRACT:
+                result = BasicOperations.subtract(numArray);
+                break;
+            case MULTIPLY:
+                result = BasicOperations.multiply(numArray);
+                break;
+            case DIVIDE:
+                result = BasicOperations.divide(numArray);
+                break;
+            case ROOT:
+                result = BasicOperations.root(numArray);
+                break;
+            case PERCENTAGE:
+                result = BasicOperations.percentage(numArray);
+                break;
         }
 
-        System.out.println("Your result is: " + result);
+        // formatting the number so it only shows up to 3 decimal places
+        DecimalFormat df = new DecimalFormat("#.###");
+        result = Double.parseDouble(df.format(result));
+
+        System.out.println("Your result is: " + result + " (up to 3 decimal places)");
 
     }
 
@@ -101,11 +260,25 @@ public class Calculator {
             return result;
         }
 
+        public static double root(Double[] nums) {
+            double base = nums[0];
+            double exponent = nums[1];
+            return Math.pow(base, 1.0 / exponent);
+        }
+
+        public static double percentage(Double[] nums) {
+            double base = nums[0];
+            double multiplier = nums [1] / 100;
+            return multiplier * base;
+        }
+
         public enum Operations {
             ADD,
             SUBTRACT,
             MULTIPLY,
-            DIVIDE
+            DIVIDE,
+            ROOT,
+            PERCENTAGE
         }
     }
 
