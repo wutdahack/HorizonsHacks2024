@@ -23,71 +23,37 @@ public class Calculator {
             String answer = scanner.nextLine().toLowerCase();
             switch (answer) {
                 case "+":
-                    curOperation = BasicOperations.Operations.ADD;
-                    break;
                 case "add":
-                    curOperation = BasicOperations.Operations.ADD;
-                    break;
                 case "addition":
                     curOperation = BasicOperations.Operations.ADD;
                     break;
                 case "-":
-                    curOperation = BasicOperations.Operations.SUBTRACT;
-                    break;
                 case "subtract":
-                    curOperation = BasicOperations.Operations.SUBTRACT;
-                    break;
                 case "subtraction":
-                    curOperation = BasicOperations.Operations.SUBTRACT;
-                    break;
                 case "minus":
                     curOperation = BasicOperations.Operations.SUBTRACT;
                     break;
                 case "*":
-                    curOperation = BasicOperations.Operations.MULTIPLY;
-                    break;
                 case "multiply":
-                    curOperation = BasicOperations.Operations.MULTIPLY;
-                    break;
                 case "multiplication":
-                    curOperation = BasicOperations.Operations.MULTIPLY;
-                    break;
                 case "times":
                     curOperation = BasicOperations.Operations.MULTIPLY;
                     break;
                 case "÷":
-                    curOperation = BasicOperations.Operations.DIVIDE;
-                    break;
                 case "/":
-                    curOperation = BasicOperations.Operations.DIVIDE;
-                    break;
                 case "divide":
-                    curOperation = BasicOperations.Operations.DIVIDE;
-                    break;
                 case "division":
                     curOperation = BasicOperations.Operations.DIVIDE;
                     break;
                 case "nth root":
-                    curOperation = BasicOperations.Operations.ROOT;
-                    break;
                 case "root":
-                    curOperation = BasicOperations.Operations.ROOT;
-                    break;
                 case "sqrt":
-                    curOperation = BasicOperations.Operations.ROOT;
-                    break;
                 case "sqrt()":
-                    curOperation = BasicOperations.Operations.ROOT;
-                    break;
                 case "cbrt":
-                    curOperation = BasicOperations.Operations.ROOT;
-                    break;
                 case "cbrt()":
                     curOperation = BasicOperations.Operations.ROOT;
                     break;
                 case "%":
-                    curOperation = BasicOperations.Operations.PERCENTAGE;
-                    break;
                 case "percentage":
                     curOperation = BasicOperations.Operations.PERCENTAGE;
                     break;
@@ -118,16 +84,11 @@ public class Calculator {
                         String ans = scanner.nextLine().toLowerCase();
                         switch (ans) {
                             case "y":
-                                doneEntering = true;
-                                enteredNums = true;
-                                break;
                             case "yes":
                                 doneEntering = true;
                                 enteredNums = true;
                                 break;
                             case "n":
-                                doneEntering = true;
-                                break;
                             case "no":
                                 doneEntering = true;
                                 break;
