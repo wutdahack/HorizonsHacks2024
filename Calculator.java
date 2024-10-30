@@ -269,7 +269,7 @@ public class Calculator {
             MULTIPLY,
             DIVIDE,
             ROOTEXP,
-            PERCENTAGE,
+            PERCENTAGE
         }
     }
 
