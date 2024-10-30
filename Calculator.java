@@ -65,9 +65,14 @@ public class Calculator {
 
         if (curOperation != BasicOperations.Operations.ROOT && curOperation != BasicOperations.Operations.PERCENTAGE) {
             do {
-                System.out.println("Please enter a number.");
+                if (numsList.isEmpty()) {
+                    System.out.println("Please enter a number.");
+                } else {
+                    System.out.println("Please enter another number.");
+                }
                 double num;
                 while(!scanner.hasNextDouble()) {
+                    System.out.println("That isn't a number, please enter a number.");
                     scanner.next();
                 }
                 num = scanner.nextDouble();
@@ -107,6 +112,7 @@ public class Calculator {
                     System.out.println("Please enter the base number.");
                     double num;
                     while(!scanner.hasNextDouble()) {
+                        System.out.println("That isn't a number, please enter the base number.");
                         scanner.next();
                     }
                     num = scanner.nextDouble();
@@ -123,6 +129,7 @@ public class Calculator {
                     System.out.println("Please enter the exponent.");
                     double num;
                     while(!scanner.hasNextDouble()) {
+                        System.out.println("That isn't a number, please enter the exponent.");
                         scanner.next();
                     }
                     num = scanner.nextDouble();
@@ -141,12 +148,17 @@ public class Calculator {
                 System.out.println("Please enter the base number you want to find a percentage of.");
                 double num;
                 while(!scanner.hasNextDouble()) {
+                    System.out.println("That isn't a number, please enter the base number.");
                     scanner.next();
                 }
                 num = scanner.nextDouble();
                 scanner.nextLine();
                 numsList.add(num);
                 System.out.println("Please enter the percentage you want to find.");
+                while(!scanner.hasNextDouble()) {
+                    System.out.println("That isn't a number, please enter the base number.");
+                    scanner.next();
+                }
                 num = scanner.nextDouble();
                 scanner.nextLine();
                 numsList.add(num);
