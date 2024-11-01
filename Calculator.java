@@ -1,16 +1,21 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 public class Calculator {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         CalcFunctions runningFunction = null;
         do {
             System.out.println("Choose between these functions"); // idk what to say here tbh
             System.out.println("1. Basic Operations");
+            System.out.println("2. Random Number Generation");
 
-            Scanner scanner = new Scanner(System.in);
+
             String choice = scanner.nextLine().toLowerCase();
 
             switch (choice) {
@@ -18,22 +23,33 @@ public class Calculator {
                 case "1":
                 case "1. basic operations":
                     runningFunction = CalcFunctions.BASIC_OPERATIONS;
-                    scanner.close();
+                    break;
+                case "random number generation":
+                case "rng":
+                case "rngs":
+                case "2":
+                case "2. random number generation":
+                    runningFunction = CalcFunctions.RNG;
                     break;
                 default:
                     System.out.println("That isn't a valid option, please try again.");
                     break;
             }
         } while (runningFunction == null);
+
         switch (runningFunction) {
             case BASIC_OPERATIONS:
                 BasicOperations.run();
+                break;
+            case RNG:
+                RandomNumberGeneration.run();
                 break;
         }
     }
 
     private enum CalcFunctions {
-        BASIC_OPERATIONS
+        BASIC_OPERATIONS,
+        RNG
     }
 
     private static class BasicOperations {
@@ -293,6 +309,161 @@ public class Calculator {
             DIVIDE,
             ROOTEXP,
             PERCENTAGE
+        }
+    }
+
+    private static class RandomNumberGeneration {
+
+        public static Random random = new Random();
+       static int amountOfNumsGenerated;
+        public static void run() {
+
+            Scanner scanner = new Scanner(System.in);
+            NumType numType = null;
+            boolean enteredNums;
+            ArrayList<Integer> intList = null;
+            ArrayList<Double> doubleList = null;
+            int[] intResults;
+            double[] doubleResults;
+
+            do {
+                System.out.println("Would you like to generate integers or decimal numbers?");
+                String ans = scanner.nextLine().toLowerCase();
+                switch (ans) {
+                    case "integers":
+                    case "integer":
+                    case "int":
+                    case "whole number":
+                    case "whole numbers":
+                    case "normal number":
+                    case "normal numbers":
+                        numType = NumType.INTEGER;
+                        break;
+                    case "decimal":
+                    case "decimals":
+                    case "decimal number":
+                    case "decimal numbers":
+                    case "doubles":
+                    case "double":
+                    case "float":
+                    case "floats":
+                    case "floating point":
+                    case "floating point number":
+                    case "floating point numbers":
+                    case "real":
+                    case "reals":
+                        numType = NumType.DECIMAL;
+                        break;
+                    default:
+                        System.out.println("That is not a valid option, please try again.");
+                        break;
+                }
+            } while (numType == null);
+
+            do {
+                System.out.println("How many numbers do you want to generate?");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("That isn't a valid answer, please enter a whole number that's over 0.");
+                    scanner.next();
+                }
+                amountOfNumsGenerated = scanner.nextInt();
+                if (amountOfNumsGenerated < 0) {
+                    amountOfNumsGenerated = 1;
+                    System.out.println("1 random number will be generated");
+                }
+                scanner.nextLine();
+                if (numType == NumType.INTEGER) {
+                    System.out.println("What is the minimum value you want to be able to generate (inclusive)?");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("That isn't a valid answer, please enter a whole number/integer.");
+                        scanner.next();
+                    }
+                    int minVal = scanner.nextInt();
+                    intList = new ArrayList<Integer>();
+                    intList.add(minVal);
+                    System.out.println("What is the maximum value you want to be able to generate (exclusive)?");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("That isn't a valid answer, please enter a whole number/integer that is above the minimum value.");
+                        scanner.next();
+                    }
+                    int maxVal = scanner.nextInt();
+                    if (maxVal <= minVal) {
+                        maxVal = minVal + 1;
+                        System.out.println("The maximum value will be set to " + (minVal + 1));
+                    }
+                    intList.add(maxVal);
+                    enteredNums = true;
+                } else {
+                    System.out.println("What is the minimum value you want to be able to generate (inclusive)?");
+                    while (!scanner.hasNextDouble()) {
+                        System.out.println("That isn't a valid answer, please enter a number.");
+                        scanner.next();
+                    }
+                    double minVal = scanner.nextDouble();
+                    doubleList = new ArrayList<Double>();
+                    doubleList.add(minVal);
+                    System.out.println("What is the maximum value you want to be able to generate (exclusive)?");
+                    while (!scanner.hasNextDouble()) {
+                        System.out.println("That isn't a valid answer, please enter a number that's above the minimum value.");
+                        scanner.next();
+                    }
+                    double maxVal = scanner.nextDouble();
+                    if (maxVal <= minVal) {
+                        maxVal = minVal + 1;
+                        System.out.println("The maximum value will be set to " + (minVal + 1));
+                    }
+                    doubleList.add(maxVal);
+                    enteredNums = true;
+                }
+            } while (!enteredNums);
+
+            scanner.close();
+
+            switch (numType) {
+                case INTEGER:
+                    Integer[] inputIntArray = intList.toArray(new Integer[0]);
+                    intResults = randomInt(inputIntArray).toArray();
+                    if (intResults.length == 1) {
+                        System.out.println("The number generated was " + intResults[0]);
+                    } else {
+                        System.out.println("The numbers generated were:");
+                        for (int num : intResults) {
+                            System.out.println(num);
+                        }
+                    }
+                    break;
+                case DECIMAL:
+                    Double[] inputDoubleArray = doubleList.toArray(new Double[0]);
+                    doubleResults = randomDouble(inputDoubleArray).toArray();
+                    DecimalFormat df = new DecimalFormat("#.###");
+                    if (doubleResults.length == 1) {
+                        System.out.println("The number (to 3 decimal places) generated was " + df.format(doubleResults[0]));
+                    } else {
+                        System.out.println("The numbers (to 3 decimal places) generated were:");
+                        for (double num : doubleResults) {
+                            System.out.println(df.format(num));
+                        }
+                    }
+                    break;
+            }
+
+        }
+
+        public static DoubleStream randomDouble(Double[] nums) {
+            double min = nums[0];
+            double max = nums[1];
+            return random.doubles(amountOfNumsGenerated, min, max);
+        }
+
+        public static IntStream randomInt(Integer[] nums) {
+            int min = nums[0];
+            int max = nums[1];
+            return random.ints(amountOfNumsGenerated, min, max);
+        }
+
+        private enum NumType {
+            INTEGER,
+            DECIMAL
         }
     }
 
